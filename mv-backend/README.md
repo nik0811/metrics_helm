@@ -1,9 +1,9 @@
 #
 
 <p align="center">
-  <img src="./logo/metricsviews.png" width="100%">
+  <img src="../logo/metricsviews.png" width="100%">
   <h1 align="center">
-    Metricsviews
+    Metricsviews Backend
   </h1>
 <p align="center">An Open Source MultiCloud Loadbalancer and MetricsMonitor.</p>
 </p>
@@ -16,14 +16,20 @@
 
 </div>
 
-> Metricsviews
+> Metricsviews Backend
 
 <p>
 
-## About Projects
+## Build Setup
 
 ``` bash
-  MultiCloud Loadbalancer And Metrics Monitoring Applications
-  
-  Comming Soon ...!!!
+# install dependencies
+
+# serve with hot reload at localhost:8080
+
+# build for production with minification
+
+# build for production and view the bundle analyzer report
+
+# run all tests
 ```

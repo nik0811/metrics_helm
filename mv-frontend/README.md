@@ -1,9 +1,9 @@
 #
 
 <p align="center">
-  <img src="./logo/metricsviews.png" width="100%">
+  <img src="../logo/metricsviews.png" width="100%">
   <h1 align="center">
-    Metricsviews
+    Metricsviews Frontend
   </h1>
 <p align="center">An Open Source MultiCloud Loadbalancer and MetricsMonitor.</p>
 </p>
@@ -16,14 +16,29 @@
 
 </div>
 
-> Metricsviews
+> Metricsviews Frontend
 
 <p>
 
-## About Projects
-
-``` bash
-  MultiCloud Loadbalancer And Metrics Monitoring Applications
-  
-  Comming Soon ...!!!
+## Project setup
 ```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
