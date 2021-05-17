@@ -21,29 +21,115 @@
 
 > MultiCloud Loadbalancer And  MetricsMonitor
 
-## Build Setup
+## Features
 
-``` bash
-# install dependencies
-npm install
+```
+- Login / Logout
 
-# serve with hot reload at localhost:8080
-npm run dev
+- Permission Authentication
+  - Page permission
+  - Directive permission
+  - Permission configuration page
+  - Two-step login
 
-# build for production with minification
-npm run build
+- Multi-environment build
+  - Develop (dev)
+  - sit
+  - Stage Test (stage)
+  - Production (prod)
 
-# build for production and view the bundle analyzer report
-npm run build --report
+- Global Features
+  - I18n
+  - Multiple dynamic themes
+  - Dynamic sidebar (supports multi-level routing)
+  - Dynamic breadcrumb
+  - Tags-view (Tab page Support right-click operation)
+  - Svg Sprite
+  - Mock data
+  - Screenfull
+  - Responsive Sidebar
 
-# run unit tests
-npm run unit
+- Editor
+  - Rich Text Editor
+  - Markdown Editor
+  - JSON Editor
 
-# run e2e tests
-npm run e2e
+- Excel
+  - Export Excel
+  - Upload Excel
+  - Visualization Excel
+  - Export zip
 
-# run all tests
-npm test
+- Table
+  - Dynamic Table
+  - Drag And Drop Table
+  - Inline Edit Table
+
+- Error Page
+  - 401
+  - 404
+
+- Components
+  - Avatar Upload
+  - Back To Top
+  - Drag Dialog
+  - Drag Select
+  - Drag Kanban
+  - Drag List
+  - SplitPane
+  - Dropzone
+  - Sticky
+  - CountTo
+
+- Advanced Example
+- Error Log
+- Dashboard
+- Guide Page
+- ECharts
+- Clipboard
+- Markdown to html
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Getting started
+
+```bash
+# clone the project
+git clone https://github.com/nik0811/metricsviews.git
+
+# enter the project directory
+cd metricsviews
+
+# install dependency
+npm install
+
+# develop
+npm run dev
+```
+
+This will automatically open http://localhost:9527
+
+## Build
+
+```bash
+# build for test environment
+npm run build:stage
+
+# build for production environment
+npm run build:prod
+```
+
+## Advanced
+
+```bash
+# preview the release environment effect
+npm run preview
+
+# preview the release environment effect + static resource analysis
+npm run preview -- --report
+
+# code format check
+npm run lint
+
+# code format check and auto fix
+npm run lint -- --fix
+```
