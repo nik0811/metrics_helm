@@ -1,23 +1,26 @@
+# byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# tests and coverage
+*.pytest_cache
+.coverage
+
+# database & logs
+*.db
+*.sqlite3
+*.log
+
+# venv
+env
+venv
+
+# other
 .DS_Store
-node_modules/
-dist/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-**/*.log
 
-tests/**/coverage/
-tests/e2e/reports
-selenium-debug.log
-
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.local
-
+# javascript
 package-lock.json
-yarn.lock
+
+staticfiles/*
+!staticfiles/.gitkeep 
+.vscode/symbols.json

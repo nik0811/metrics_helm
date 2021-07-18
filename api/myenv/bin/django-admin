@@ -1,4 +1,4 @@
-#!/home/nikhil/Documents/metricsviews/api/myenv/bin/python3
+#!/home/nikhil/Documents/metricsviews/api/myenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
