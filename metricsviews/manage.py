@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright (c) 2022 - present Metricsview.com
+Copyright (c) 2022 - present Metricsviews.com
 """
 
 import os
