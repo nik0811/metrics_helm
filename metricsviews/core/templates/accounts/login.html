@@ -12,6 +12,9 @@
 .bgsz-cv {
     background-size: contain !important;
 }
+.alert {
+    position: absolute !important;
+}
 </style>
 {% endblock stylesheets %}
 
@@ -26,14 +29,10 @@
           <a target="_blank" rel="noopener noreferrer" 
              href="https://metricsviews.com/admin-dashboards/django-dashboard-adminator">Dashboard</a> - Login
         </h3>
-
-        {% if msg %}
-            <h4 class="fw-300 c-grey-900 mB-40">{{ msg | safe }}</h4>
-        {% else %}
+        
             <p class="fw-900 c-grey-900 mB-40">
               <strong>Continue To Metricsviews</strong>
             </p>
-        {% endif %}
 
         <form method="post" action="">
 
@@ -60,6 +59,11 @@
               </div>
             </div>
           </div>
+          {% for message in messages %}
+	        <div class="alert alert-{{ message.tags }}">
+		     <strong>{{message}}</strong>
+                </div>
+	 {% endfor %}
         </form>
       </div>
     </div>  

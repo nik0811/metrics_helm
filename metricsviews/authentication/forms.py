@@ -6,6 +6,7 @@ Copyright (c) 2022 - present Metricsviews.com
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from authentication.models.company import *
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -56,3 +57,15 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+class  CompanyProfileForm(forms.ModelForm):
+    company_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "Company Name",                
+                "class": "form-control"
+            }
+        ))
+    class Meta:
+        model = CompanyProfile
+        fields = ('company_name',)

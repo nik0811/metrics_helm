@@ -1,4 +1,5 @@
 from __future__ import print_function
+from django.shortcuts import render
 import time
 import kubernetes.client
 from kubernetes.client.rest import ApiException
@@ -6,7 +7,6 @@ from pprint import pprint
 from k8s import env
 import urllib3
 import json
-import re
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -24,24 +24,28 @@ configuration._preload_content=False
 
 configuration.verify_ssl = False
 
-ip_match = re.compile('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
-
 # Enter a context with an instance of the API kubernetes.client
 with kubernetes.client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = kubernetes.client.CoreV1Api(api_client)
-    NODE_IP=[]
-    NODE_NAME=[]
+    
     try:
+        keys=['node-role.kubernetes.io/control-plane', 'node-role.kubernetes.io/master']
         api_response = api_instance.list_node()
-        for stat in api_response.items:
-            _stat=(stat.status.addresses[::-1])
-            for addr in  _stat:
-                if ip_match.match(addr.address):
-                    NODE_IP.append(addr.address)
-                else:
-                    NODE_NAME.append(addr.address)
-        NODES=(dict(zip(NODE_NAME, NODE_IP)))
-        print(NODES)
+        instance=api_instance.list_node()
+        for label in range(len(api_response.items)):
+            name=api_response.items[label].metadata.labels['kubernetes.io/hostname']
+            instance=api_instance.read_node_status(name)
+            pprint(instance.status.addresses)
+            status=instance.status.conditions
+            search_for_master=api_instance.read_node_status(name).metadata.labels
+            if any(key in search_for_master for key in keys):
+                #print('%s: master %s'%(name, status[-1].type))
+                pass
+            else:
+                #print('%s: worker %s'%(name, status[-1].type))
+                pass
+        #pprint(instance.status.addresses)
+        
     except ApiException as e:
         print("Exception when calling Api: %s\n" % e)

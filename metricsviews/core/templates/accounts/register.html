@@ -13,6 +13,10 @@
 .bgsz-cv {
     background-size: contain !important;
 }
+.pYz-80 {
+    padding-top: 15px !important;
+    padding-bottom: 80px !important;
+}
 </style>
 {% endblock stylesheets %}
 
@@ -20,48 +24,57 @@
 
       <div class="peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style='background-image: url("/static/assets/static/images/DEVOPS.gif")' >
       </div>
-      <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style="min-width: 320px;">
+      <div class="col-12 col-md-4 peer pX-40 pYz-80 h-100 bgc-white scrollable pos-r" style="min-width: 320px;">
         <h3 class="fw-300 c-grey-900 mB-40">
           <img class="centerXYZ" src="/static/assets/static/images/logo.png" alt="">
           <br>
           <a target="_blank" rel="noopener noreferrer" 
              href="https://metricsviews.com">Dashboard</a> - Register
         </h3>
-        {% if msg %}
-            <h4 class="fw-300 c-grey-900 mB-40">{{ msg | safe }}</h4>
-        {% else %}
+	{% if messages %}
+	    {% for message in messages %}
+	        <p class="text-error" style="color:red !important;">
+		   <b>{{message}}</b>
+                </p>
+             {% endfor %}
+	{% else %}
             <p class="fw-900 c-grey-900 mB-40">
-	      <b>Create Your Metricsviews Account</b>
-            </p>
-        {% endif %}
-
+	       <b>Create Your Metricsviews Account</b>
+	    </p>
+	{% endif %}
+        <span class="text-error" style="color:red !important;">{{ form.company_name.errors }}</span>
+        <span class="text-error" style="color:red !important;">{{ form.username.errors }}</span>
+        <span class="text-error" style="color:red !important;">{{ form.email.errors }}</span>
+        <span class="text-error" style="color:red !important;">{{ form.password1.errors }}</span>
+        <span class="text-error" style="color:red !important;">{{ form.password1.errors }}</span>
+	&nbsp; &nbsp;
         <form method="post" action="">
 
           {% csrf_token %}
+          <div class="form-group">
+            <label class="text-normal text-dark">Company</label>
+            {{ profile_form.company_name }}
+          </div>
 
           <div class="form-group">
             <label class="text-normal text-dark">Username</label>
             {{ form.username }}
           </div>
-          <span class="text-error">{{ form.username.errors }}</span>
 
           <div class="form-group">
-            <label class="text-normal text-dark">eMail Address</label>
+            <label class="text-normal text-dark">Email Address</label>
             {{ form.email }}
           </div>
-          <span class="text-error">{{ form.email.errors }}</span>
 
           <div class="form-group">
             <label class="text-normal text-dark">Password</label>
             {{ form.password1 }}
           </div>
-          <span class="text-error">{{ form.password1.errors }}</span>
 
           <div class="form-group">
             <label class="text-normal text-dark">Password</label>
             {{ form.password2 }}
           </div>
-          <span class="text-error">{{ form.password1.errors }}</span>
 
           <div class="form-group">
             <button type="submit" name="register" class="btn btn-primary">Register</button> 
