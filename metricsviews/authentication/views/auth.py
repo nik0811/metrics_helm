@@ -39,14 +39,13 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                #return redirect("/")
-                return render(request, "verification.html")
+                return redirect("/")
             else:    
                 messages.error(request, 'Invalid Credentials, Reset Password?')    
         else:
             messages.error(request, 'Login Validation Failed')    
 
-    return render(request, "accounts/login.html", {"form": form})
+    return render(request, "login.html", {"form": form})
 
 def register_user(request):
 

@@ -3,19 +3,19 @@
 Copyright (c) 2022 - present Metricsviews.com
 """
 
-from django.urls import path
+from django.urls import path, re_path
 from authentication.views.auth import login_view, register_user, passwordChange, sendActivationEmail, activate, verification
 from django.contrib.auth.views import LogoutView
 from rest_framework.authtoken import views as auth_views
 
 urlpatterns = [
-    path('login/', login_view, name="login"),
-    path('register/', register_user, name="register"),
-    path('logout/', LogoutView.as_view(), name="logout"),
+    re_path(r'^login/', login_view, name="login"),
+    re_path(r'^register/', register_user, name="register"),
+    re_path(r'^logout/', LogoutView.as_view(), name="logout"),
     #path('api-token-auth/', auth_views.obtain_auth_token)
     # Forget password or reset password
-    path('password/change/', passwordChange, name="password-change"),
-    path('email/send-email-activation', sendActivationEmail, name='send-activation-email'),
-    path('verify/<uidb64>/<token>/', activate, name='verify'),
+    re_path(r'^password/change/', passwordChange, name="password-change"),
+    re_path(r'^email/', sendActivationEmail, name='send-activation-email'),
+    re_path(r'^verify/<uidb64>/<token>/', activate, name='verify'),
     #path('verification/', verification, name='email_verification')
 ]
