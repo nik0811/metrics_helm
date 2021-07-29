@@ -2,20 +2,32 @@
 """
 Copyright (c) 2022 - present Metricsviews.com
 """
+from django.urls import path
+from authentication.views import auth
 
-from django.urls import path, re_path
-from authentication.views.auth import login_view, register_user, passwordChange, sendActivationEmail, activate, verification
-from django.contrib.auth.views import LogoutView
-from rest_framework.authtoken import views as auth_views
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
+
+app_name = 'authentication-api'
 
 urlpatterns = [
-    re_path(r'^login/', login_view, name="login"),
-    re_path(r'^register/', register_user, name="register"),
-    re_path(r'^logout/', LogoutView.as_view(), name="logout"),
-    #path('api-token-auth/', auth_views.obtain_auth_token)
+
+    path('register/', auth.RegisterView.as_view(), name='register'),
+    path('login/', auth.MyTokenObtainPairView.as_view(), name='login'),
+    path('refresh_token/', TokenRefreshView.as_view(), name='refresh_token'),
+
+
+    path('profile_update/', auth.UserProfileUpdate.as_view(), name="profile_update"), 
+    path('profile_update/photo/', auth.ProfilePictureUpdate.as_view(), name="profile_update_photo"), 
+
+    path('<str:username>/', auth.user, name="user"),
+
     # Forget password or reset password
-    re_path(r'^password/change/', passwordChange, name="password-change"),
-    re_path(r'^email/', sendActivationEmail, name='send-activation-email'),
-    re_path(r'^verify/<uidb64>/<token>/', activate, name='verify'),
-    #path('verification/', verification, name='email_verification')
+    path('password/change/',auth.passwordChange,name="password-change"),
+    # path('password/reset/',views.passwordReset,name="password-reset"),
+
+    # email verification urls
+    path('email/send-email-activation',auth.sendActivationEmail,name='send-activation-email'),
+    path('verify/<uidb64>/<token>/',auth.activate, name='verify'),
 ]

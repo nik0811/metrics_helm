@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from pprint import pprint
 from cluster.views.k8s import env
 import urllib3
+import logging
 import re
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -28,7 +29,7 @@ configuration.verify_ssl = False
 
 ip_match = re.compile('^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
 
-@login_required(login_url="/login/")
+#@login_required(login_url="/login/")
 def Cluster(request):
     # Enter a context with an instance of the API kubernetes.client
     with kubernetes.client.ApiClient(configuration) as api_client:
@@ -48,4 +49,4 @@ def Cluster(request):
             NODES=(dict(zip(NODE_NAME, NODE_IP)))
             return (JsonResponse(NODES))
         except ApiException as e:
-            print("Exception when calling Api: %s\n" % e)
+            logging.debug(str(exc))
