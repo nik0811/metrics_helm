@@ -9,8 +9,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),           # Django admin route
-    re_path(r'^', include('home.urls')),
-    path('auth/', include("authentication.urls")),  # Auth routes - login / register
-    #path('', include("nodes.urls"))            # nodes api
+    path('admin/', admin.site.urls),
+    path('auth/', include("authentication.urls")), 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
