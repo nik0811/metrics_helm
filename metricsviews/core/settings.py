@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'nodes',
     'customer',
+    'cluster',
     'authentication.apps.AuthConfig'
 ]
 
@@ -61,6 +62,7 @@ HOME=TEMPLATE_DIR + "/metricsviews/home/"
 INCLUDE=TEMPLATE_DIR + "/metricsviews/includes/"
 LAYOUTS=TEMPLATE_DIR + "/metricsviews/layouts/"
 ACCOUNTS=TEMPLATE_DIR + "/metricsviews/accounts/"
+NODES=TEMPLATE_DIR + "/metricsviews/nodes/"
 
 TEMPLATES = [
     {
@@ -70,6 +72,7 @@ TEMPLATES = [
            INCLUDE,
            LAYOUTS,
            ACCOUNTS,
+           NODES
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -129,16 +132,16 @@ USE_TZ = True
 #############################################################
 # SRC: https://devcenter.heroku.com/articles/django-assets
 
-#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = Path(__file__).resolve().parent.parent
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'core/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'core/static/')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/'),
 )
 #############################################################
 #############################################################

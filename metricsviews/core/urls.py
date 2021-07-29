@@ -12,5 +12,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),           # Django admin route
     re_path(r'^', include('home.urls')),
     path('auth/', include("authentication.urls")),  # Auth routes - login / register
-    #path('', include("nodes.urls"))            # nodes api
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('api/', include("cluster.urls")),            # nodes api
+    path('api/', include("nodes.urls")),            # nodes api
+]
