@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
+    'channels',
     'authentication.apps.UsersConfig',
     'cluster'
 ]
@@ -63,7 +64,9 @@ ROOT_URLCONF = 'metricsviews.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates/metricsviews/socket/'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +79,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'metricsviews.wsgi.application'
+#WSGI_APPLICATION = 'metricsviews.wsgi.application'
+
+#Channels
+ASGI_APPLICATION = 'metricsviews.asgi.application'
 
 
 # Database
@@ -154,6 +160,16 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
@@ -176,11 +192,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-
+print(BASE_DIR)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # Default primary key field type
