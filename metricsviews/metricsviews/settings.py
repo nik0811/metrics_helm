@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'metricsviews.wsgi.application'
+WSGI_APPLICATION = 'metricsviews.wsgi.application'
 
 #Channels
 ASGI_APPLICATION = 'metricsviews.asgi.application'
