@@ -14,7 +14,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('authentication.urls')),
-    path('api/view/', include("cluster.urls")),
+    path('api/kube/', include("cluster.urls")),
+    path('api/helm/', include("helm.urls")),
     path('schema/', get_schema_view(
         title="Metricsviews",
         description="API for the Mumble.dev",
