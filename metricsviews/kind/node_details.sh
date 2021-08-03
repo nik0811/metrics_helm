@@ -13,8 +13,6 @@ env_setup() {
 if [[ $action == 'delete' ]]; then
 	kind delete cluster --name milky
         kind create cluster --config kind.yaml --name milky
-        kubectl apply -f cluster_rolebinding.yaml
-        kubectl apply -f cluster_role.yaml
 	env_setup
 elif [[ $action == 'start' ]]; then
 	docker run -p 6379:6379 -d redis:5
