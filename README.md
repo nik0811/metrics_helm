@@ -5,7 +5,7 @@
   <h1 align="center">
     Metricsviews
   </h1>
-<p align="center">An Open Source MultiCloud Loadbalancer and MetricsMonitor.</p>
+<p align="center">An Open Source MultiCloud Serverless Cluster Manager.</p>
 </p>
 
 <div align="center">
@@ -23,7 +23,7 @@
 ## About Projects
 
 ``` bash
-  MultiCloud Loadbalancer And Metrics Monitoring Applications
+  MultiCloud Serverless Cluster Manager
   
   Comming Soon ...!!!
 ```
