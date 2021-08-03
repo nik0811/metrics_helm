@@ -5,7 +5,7 @@
   <h1 align="center">
     Metricsviews
   </h1>
-<p align="center">An Open Source MultiCloud Serverless Cluster Manager.</p>
+<p align="center">An Open Source MultiCloud Cluster Manager.</p>
 </p>
 
 <div align="center">
@@ -23,7 +23,7 @@
 ## About Projects
 
 ``` bash
-  MultiCloud Serverless Cluster Manager
+  MultiCloud Cluster Manager
   
   Comming Soon ...!!!
 ```
