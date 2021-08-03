@@ -1,10 +1,9 @@
 from django.urls import path, re_path
 from cluster.views.cluster import Cluster
-from cluster.views.namespace import Namespace
-from cluster.views.socket import Socket, SocketRoom
+from cluster.views.namespace import Namespace, DeleteNamespace
 
 urlpatterns = [
      re_path(r'^cluster/', Cluster, name='cluster'),
-     re_path(r'^socket/', Socket, name='socket'),
-     re_path(r'^namespace/', Namespace, name='namespace'),
+     re_path(r'^namespace/create', Namespace, name='namespace'),
+     re_path(r'^namespace/delete', DeleteNamespace, name='deletenamespace'),
 ]
