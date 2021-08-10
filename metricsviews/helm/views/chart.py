@@ -51,7 +51,6 @@ def HelmInstall(request):
         namespace = data['namespace']
         timeout = data['timeout']
         chart_path = data['chart_path']
-        print(data)
         if (len(release_name) == 0) and (len(namespace.split()) == 0) and (len(chart_path.split()) == 0):
             chart_install = "helm install --timeout {}s {}/{} --generate-name".format(timeout, chart_name, chart_name)
         elif (len(release_name) > 0) and (len(namespace.split()) == 0) and (len(chart_path.split()) == 0):
@@ -68,7 +67,7 @@ def HelmInstall(request):
             chart_install = "helm install --timeout {}s --generate-name -n {} {}".format(timeout, chart_namespace, chart_path)
         elif (len(release_name) > 0) and (len(namespace.split()) > 0) and (len(chart_path.split()) > 0):
             chart_install = "helm install --timeout {}s --name-template {} -n {} {}".format(timeout, release_name, chart_namespace, chart_path)
-
+        print(chart_install)
         try:
             if chart_install:
                 execute=(check_output(chart_install.split(), stderr=subprocess.STDOUT)).decode().strip()
