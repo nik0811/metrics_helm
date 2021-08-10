@@ -9,6 +9,7 @@ from subprocess import check_output
 
 @api_view(['POST'])
 def HelmRepo(request):
+
     try:
         data = request.data
         chart_name = data['chart_name']
@@ -48,26 +49,28 @@ def HelmInstall(request):
         chart_name = data['chart_name']
         release_name = data['release_name']
         namespace = data['namespace']
-
-        if (release_name == "False") and (len(namespace.split()) == 0):
-            chart_install = "helm install {}/{} --generate-name".format(chart_name, chart_name)
-        elif (release_name != "False") and (len(namespace.split()) == 0):
-            chart_install = "helm install {}/{} --name-template {}".format(chart_name, chart_name, release_name)
-        elif (release_name == "False") and (len(namespace.split()) > 0):
-            chart_install = "helm install {}/{} --generate-name -n {}".format(chart_name, chart_name, chart_namespace)
-        elif (release_name != "False") and (len(namespace.split()) > 0):
-            chart_install = "helm install {}/{} --name-template {} -n {}".format(chart_name, chart_name, release_name, chart_namespace)
-        elif (release_name == "False") and (len(namespace.split()) == 0) and (len(data['chart_path']) > 0):
-            chart_install = "helm install --generate-name {}".format(data['chart_path'])
-        elif (release_name != "False") and (len(namespace.split()) == 0) and (len(data['chart_path']) > 0):
-            chart_install = "helm install --name-template {} {}".format(release_name, data['chart_path'])
-        elif (release_name == "False") and (len(namespace.split()) > 0) and (len(data['chart_path']) > 0):
-            chart_install = "helm install --generate-name -n {} {}".format(chart_namespace, data['chart_path'])
-        elif (release_name != "False") and (len(namespace.split()) > 0) and (len(data['chart_path']) > 0):
-            chart_install = "helm install --name-template {} -n {} {}".format(release_name, chart_namespace, data['chart_path'])
+        timeout = data['timeout']
+        chart_path = data['chart_path']
+        print(data)
+        if (len(release_name) == 0) and (len(namespace.split()) == 0) and (len(chart_path.split()) == 0):
+            chart_install = "helm install --timeout {}s {}/{} --generate-name".format(timeout, chart_name, chart_name)
+        elif (len(release_name) > 0) and (len(namespace.split()) == 0) and (len(chart_path.split()) == 0):
+            chart_install = "helm install --timeout {}s {}/{} --name-template {}".format(timeout, chart_name, chart_name, release_name)
+        elif (len(release_name) == 0) and (len(namespace.split()) > 0) and (len(chart_path.split()) == 0):
+            chart_install = "helm install --timeout {}s {}/{} --generate-name -n {}".format(timeout, chart_name, chart_name, chart_namespace)
+        elif (len(release_name) > 0) and (len(namespace.split()) > 0) and (len(chart_path.split()) == 0):
+            chart_install = "helm install --timeout {}s {}/{} --name-template {} -n {}".format(timeout, chart_name, chart_name, release_name, chart_namespace)
+        elif (len(release_name) == 0) and (len(namespace.split()) == 0) and (len(chart_path.split()) > 0):
+            chart_install = "helm install --timeout {}s --generate-name {}".format(timeout, chart_path)
+        elif (len(release_name) > 0) and (len(namespace.split()) == 0) and (len(chart_path.split()) > 0):
+            chart_install = "helm install --timeout {}s --name-template {} {}".format(timeout, release_name, chart_path)
+        elif (len(release_name) == 0) and (len(namespace.split()) > 0) and (len(chart_path.split()) > 0):
+            chart_install = "helm install --timeout {}s --generate-name -n {} {}".format(timeout, chart_namespace, chart_path)
+        elif (len(release_name) > 0) and (len(namespace.split()) > 0) and (len(chart_path.split()) > 0):
+            chart_install = "helm install --timeout {}s --name-template {} -n {} {}".format(timeout, release_name, chart_namespace, chart_path)
 
         try:
-            if chart_name:
+            if chart_install:
                 execute=(check_output(chart_install.split(), stderr=subprocess.STDOUT)).decode().strip()
             else:
                 return Response({'detail': 'Please Provide The Correct Parameter To Perform The Installation Of Your Chart.'},status=status.HTTP_400_BAD_REQUEST)
@@ -82,15 +85,30 @@ def HelmInstall(request):
 
 @api_view(['POST'])
 def HelmUpgrade(request):
+
     try:
         data = request.data
-        pass
-    except:
-        pass
+        release_name = data['release_name']
+        namespace = data['namespace']
+        timeout = data['timeout']
+        chart_path = data['chart_path']
+        chart_install = "helm upgrade --atomic --install --timeout {}s {} {}".format(timeout, release_name, chart_path)
+        print(chart_install)
+
+        try:
+            if chart_install:
+                execute=(check_output(chart_install.split(), stderr=subprocess.STDOUT)).decode().strip()
+            else:
+                return Response({'detail': 'Please Provide The Correct Parameter To Perform The Installation Of Your Chart.'},status=status.HTTP_400_BAD_REQUEST)
+        except subprocess.CalledProcessError as e:
+            return Response("{}, (ErrorCode: {})".format((e.output).decode().strip(), e.returncode), status=status.HTTP_403_FORBIDDEN)
+
+        DATA={"Result": execute}
+        return (JsonResponse(DATA, safe=False))
+
+    except Exception as e:
+        return Response({'detail':f'{e}'},status=status.HTTP_400_BAD_REQUEST)
         
-
-
-
 @api_view(['POST'])
 def HelmDelete(request):
 
@@ -113,7 +131,7 @@ def HelmDelete(request):
             return Response({'detail': 'Please Provide The Correct Parameter For Keep History <true/false>'},status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            if release_name:
+            if chart_delete:
                 execute=(check_output(chart_delete.split(), stderr=subprocess.STDOUT)).decode().strip()
             else:
                 return Response({'detail': 'Please Provide The Correct Parameter To Dlete Released Chart.'},status=status.HTTP_400_BAD_REQUEST)
@@ -143,7 +161,7 @@ def HelmList(request):
         else:
             return Response({'detail': 'Pass the correct parameter for repo_list, It will be either <release or repo>'},status=status.HTTP_400_BAD_REQUEST)
         try:
-            if list_type:
+            if chart_list:
                 execute=(check_output(chart_list.split(), stderr=subprocess.STDOUT)).decode().strip()
             else:
                 return Response({'detail': 'Please Provide The Correct Parameter To List Chart.'},status=status.HTTP_400_BAD_REQUEST)
@@ -170,7 +188,7 @@ def HelmHistory(request):
             return Response({'details': 'Pass the correct parameter either with namespcae or just pass empty string.'},status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            if release_name:
+            if chart_history:
                 execute=(check_output(chart_history.split(), stderr=subprocess.STDOUT)).decode().strip()
             else:
                 return Response({'detail': 'Please Provide The Release Name.'},status=status.HTTP_400_BAD_REQUEST)
