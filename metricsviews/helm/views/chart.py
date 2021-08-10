@@ -57,6 +57,14 @@ def HelmInstall(request):
             chart_install = "helm install {}/{} --generate-name -n {}".format(chart_name, chart_name, chart_namespace)
         elif (release_name != "False") and (len(namespace.split()) > 0):
             chart_install = "helm install {}/{} --name-template {} -n {}".format(chart_name, chart_name, release_name, chart_namespace)
+        elif (release_name == "False") and (len(namespace.split()) == 0) and (len(data['chart_path']) > 0):
+            chart_install = "helm install --generate-name {}".format(data['chart_path'])
+        elif (release_name != "False") and (len(namespace.split()) == 0) and (len(data['chart_path']) > 0):
+            chart_install = "helm install --name-template {} {}".format(release_name, data['chart_path'])
+        elif (release_name == "False") and (len(namespace.split()) > 0) and (len(data['chart_path']) > 0):
+            chart_install = "helm install --generate-name -n {} {}".format(chart_namespace, data['chart_path'])
+        elif (release_name != "False") and (len(namespace.split()) > 0) and (len(data['chart_path']) > 0):
+            chart_install = "helm install --name-template {} -n {} {}".format(release_name, chart_namespace, data['chart_path'])
 
         try:
             if chart_name:
@@ -71,6 +79,16 @@ def HelmInstall(request):
 
     except Exception as e:
         return Response({'detail':f'{e}'},status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def HelmUpgrade(request):
+    try:
+        data = request.data
+        pass
+    except:
+        pass
+        
+
 
 
 @api_view(['POST'])
