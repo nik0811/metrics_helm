@@ -67,7 +67,39 @@ def HelmInstall(request):
             chart_install = "helm install --timeout {}s --generate-name -n {} {}".format(timeout, chart_namespace, chart_path)
         elif (len(release_name) > 0) and (len(namespace.split()) > 0) and (len(chart_path.split()) > 0):
             chart_install = "helm install --timeout {}s --name-template {} -n {} {}".format(timeout, release_name, chart_namespace, chart_path)
-        print(chart_install)
+
+        try:
+            if chart_install:
+                execute=(check_output(chart_install.split(), stderr=subprocess.STDOUT)).decode().strip()
+            else:
+                return Response({'detail': 'Please Provide The Correct Parameter To Perform The Installation Of Your Chart.'},status=status.HTTP_400_BAD_REQUEST)
+        except subprocess.CalledProcessError as e:
+            return Response("{}, (ErrorCode: {})".format((e.output).decode().strip(), e.returncode), status=status.HTTP_403_FORBIDDEN)
+
+        DATA={"Result": execute}
+        return (JsonResponse(DATA, safe=False))
+
+    except Exception as e:
+        return Response({'detail':f'{e}'},status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def HelmUpgrade(request):
+
+    try:
+        data = request.data
+        release_name = data['release_name']
+        timeout = data['timeout']
+        chart_path = data['chart_path']
+        if data['force'] == "false":
+            chart_install = "helm upgrade --atomic --install --timeout {}s {} {}".format(timeout, release_name, chart_path)
+        elif data['force'] == "true":
+            chart_install = "helm upgrade --atomic --install --force --timeout {}s {} {}".format(timeout, release_name, chart_path)
+        elif (len(data['version'].split()) > 0) and data['force'] == "true":
+            chart_install = "helm upgrade --atomic --install --force --version {} --timeout {}s {} {}".format(version, timeout, release_name, chart_path)
+        elif (len(data['version'].split()) > 0) and data['force'] == "false":
+            chart_install = "helm upgrade --atomic --install --version {} --timeout {}s {} {}".format(version, timeout, release_name, chart_path)
+
         try:
             if chart_install:
                 execute=(check_output(chart_install.split(), stderr=subprocess.STDOUT)).decode().strip()
@@ -83,16 +115,17 @@ def HelmInstall(request):
         return Response({'detail':f'{e}'},status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-def HelmUpgrade(request):
+def HelmRollback(request):
 
     try:
         data = request.data
         release_name = data['release_name']
-        namespace = data['namespace']
         timeout = data['timeout']
-        chart_path = data['chart_path']
-        chart_install = "helm upgrade --atomic --install --timeout {}s {} {}".format(timeout, release_name, chart_path)
-        print(chart_install)
+        revision = data['revision']
+        if data['force'] == "false":
+            chart_install = "helm rollback --timeout {}s {} {}".format(timeout, release_name, revision)
+        elif data['force'] == "true":
+            chart_install = "helm rollback --force --timeout {}s {} {}".format(timeout, release_name, revision)
 
         try:
             if chart_install:
@@ -108,6 +141,7 @@ def HelmUpgrade(request):
     except Exception as e:
         return Response({'detail':f'{e}'},status=status.HTTP_400_BAD_REQUEST)
         
+
 @api_view(['POST'])
 def HelmDelete(request):
 
@@ -159,6 +193,7 @@ def HelmList(request):
             chart_list = "helm ls -n {} -o json".format(data['namespace'])
         else:
             return Response({'detail': 'Pass the correct parameter for repo_list, It will be either <release or repo>'},status=status.HTTP_400_BAD_REQUEST)
+            
         try:
             if chart_list:
                 execute=(check_output(chart_list.split(), stderr=subprocess.STDOUT)).decode().strip()
@@ -171,6 +206,7 @@ def HelmList(request):
 
     except Exception as e:
         return Response({'detail':f'{e}'},status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def HelmHistory(request):
