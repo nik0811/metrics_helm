@@ -1,7 +1,7 @@
 #https://github.com/nik0811/conu
 asgiref==3.4.1
 cachetools==4.2.2
-certifi==2021.5.30
+certifi==2022.12.7
 charset-normalizer==2.0.4
 coreapi==2.3.3
 coreschema==0.0.4
